@@ -5,7 +5,9 @@ let firstCard
 let secondCard
 let disableClick
 
-let time = 30
+startingMinutes = 0
+startinSecond = 30
+let time = (startingMinutes * 60) + startinSecond
 const countDownTimer = document.querySelector(".timer")
 
 setInterval(updateTime, 1000)
@@ -13,9 +15,24 @@ setInterval(updateTime, 1000)
 function updateTime(){
     const minutes = Math.floor(time/60)
     const seconds = time % 60
+    if(seconds < 10){
+        countDownTimer.innerHTML = `0${minutes} : 0${seconds}` 
+    }else{
+        countDownTimer.innerHTML = `0${minutes} : ${seconds}` 
 
-    countDownTimer.innerHTML = `${minutes} : ${seconds}` 
-    time--;
+    }
+
+    if(time === 15){
+        countDownTimer.style.color = "red"
+    }
+    
+    if(time <= 0){
+        countDownTimer.innerHTML = `00 : 00`
+        disableClick = true 
+
+    }else{
+        time--
+    }
 
 }
 
