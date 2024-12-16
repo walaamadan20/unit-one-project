@@ -5,6 +5,20 @@ let firstCard
 let secondCard
 let disableClick
 
+let time = 30
+const countDownTimer = document.querySelector(".timer")
+
+setInterval(updateTime, 1000)
+
+function updateTime(){
+    const minutes = Math.floor(time/60)
+    const seconds = time % 60
+
+    countDownTimer.innerHTML = `${minutes} : ${seconds}` 
+    time--;
+
+}
+
 function init(){
     matchedCard = 0
     firstCard = null
@@ -18,7 +32,7 @@ function flipCard(e) {
     if (!disableClick && clickedCard !== firstCard) {
         clickedCard.classList.add('flip')
 
-        if (!firstCard) {
+        if (firstCard === null) {
             firstCard = clickedCard
         } else {
             secondCard = clickedCard

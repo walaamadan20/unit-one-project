@@ -15,6 +15,20 @@ body {
     background: #EACFFA;
 }
 
+.timer{
+    display: flex;
+    justify-items:center;
+    justify-content: center;
+    top: 20px;
+    left: 47%;
+    padding: 5px 5px 5px 5px;
+    border-radius: 2dvh;
+    position: absolute;
+    margin: 0 auto;
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
 .wrapper {
     height: 400px;
     width: 400px;
@@ -51,7 +65,7 @@ body {
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-    
+
     transition: transform 0.5s;
     /* transform-style: preserve-3d; */
     display: flex;
