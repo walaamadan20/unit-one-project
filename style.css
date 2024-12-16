@@ -1,44 +1,113 @@
 @import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=M+PLUS+Rounded+1c&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rammetto+One&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'M PLUS Rounded 1c', sans-serif;
 }
-body{
+
+body {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    /* Background color */
     background: #EACFFA;
 }
 
-.wrapper{
+.wrapper {
     height: 400px;
     width: 400px;
-    background: #FBEADC
-    
+    padding: 25px;
+    background: #FBEADC;
 }
 
-.cards, .card, .view{
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.card {
+    cursor: pointer;
+    position: relative;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    height: calc(100% / 4 - 10px);
+    width: calc(100% / 4 - 10px);
+}
+
+.view {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.front-view,
+.back-view {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    
+    transition: transform 0.5s;
+    /* transform-style: preserve-3d; */
     display: flex;
     align-items: center;
-    align-content: center;
+    justify-content: center;
 }
 
-.cards{
-    height: 100px;
-    width:75px;
-    flex-wrap: wrap;
+.front-view {
+    transform: rotateY(0deg);
+    background: #fff;
+    z-index: 1;
 }
 
-.cards, .card{
-    height: 100px;
-    width: 75px;
+.back-view {
+    transform: rotateY(180deg);
+    background: #f1f1f1;
+    z-index: 0;
 }
 
-.card, .back-view, img{
+.card img {
     max-width: 45px;
+    display: block;
+}
+
+
+
+.card.flip .front-view {
+    transform: rotateY(-180deg);
+}
+
+.card.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-10px);
+    }
+    40% {
+        transform: translateX(10px);
+    }
+    60% {
+        transform: translateX(-10px);
+    }
+    80% {
+        transform: translateX(10px);
+    }
+}
+
+.card.flip .back-view {
+    transform: rotateY(0);
+}
+
+ul {
+    list-style-type: none;
 }
