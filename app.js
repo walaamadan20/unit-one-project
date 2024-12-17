@@ -5,6 +5,10 @@ const matchIceCreamsTitle = document.querySelector('h1');
 const countDownTimer = document.querySelector(".timer");
 const controlsEl = document.querySelector(".controls");
 const flipEl = document.querySelector(".flip");
+const winTimeEl = document.querySelector(".wining-time");
+const winFlipEl = document.querySelector(".wining-flips");
+
+
 
 
 
@@ -29,11 +33,14 @@ let matchedCard;
         }
 
         if (time <= 0) {
-            countDownTimer.innerHTML = `00 : 00`;
+            countDownTimer.innerHTML = `&nbsp;&nbsp;Time 00 : 00`;
             disableClick = true;
+            gameOver()
         } else {
             time--;
         }
+
+        
     }
 
 function init(){
@@ -46,7 +53,7 @@ function init(){
 
 function flipCard(e) {
     flips+=1
-    flipEl.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;Flips : ${flips}`
+    flipEl.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp; Flips : ${flips}`
     let clickedCard = e.currentTarget
 
     if (!disableClick && clickedCard !== firstCard) {
@@ -71,7 +78,7 @@ function matchCards(img1, img2) {
 
         if (matchedCard === 8) {
             setTimeout(() => {
-                shuffleCard()
+                endGame()
             }, 1200)
         }
 
@@ -125,3 +132,28 @@ startButton.addEventListener("click", () => {
     setInterval(updateTime, 1000);
     startButton.classList.add('hide');
 });
+
+function endGame() {
+    gameBoard.classList.add('hide');
+    matchIceCreamsTitle.innerHTML = "You Won!";
+    winTimeEl.innerHTML = `Final Time: ${(59 - time)} seconds`;
+    controlsEl.classList.add('hide');
+    matchIceCreamsTitle.classList.remove('hide');
+    winFlipEl.classList.remove('hide');
+    winTimeEl.classList.remove('hide');
+     matchIceCreamsTitle.style.color = "green";
+     matchIceCreamsTitle.style.fontSize = "70px"
+    winFlipEl.innerHTML = `<p>Total Flips: ${flips}</p>`
+}
+
+function  gameOver() {
+    gameBoard.classList.add('hide');
+    matchIceCreamsTitle.innerHTML = "You Lose!";
+    controlsEl.classList.add('hide');
+    matchIceCreamsTitle.classList.remove('hide');
+    winFlipEl.classList.remove('hide');
+    winTimeEl.classList.remove('hide');
+     matchIceCreamsTitle.style.color = "red";
+     matchIceCreamsTitle.style.fontSize = "70px"
+    winFlipEl.innerHTML = `<p>Total Flips: ${flips}</p>`
+}

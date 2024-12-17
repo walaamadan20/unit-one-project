@@ -15,6 +15,24 @@ body {
     background: #EACFFA;
 }
 
+.start-page{
+    position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center space-around;
+  flex-direction: column;
+}
+
+
+
+button {
+    margin-top: 20px;
+    border: none;
+    border-radius: 0.3em;
+    padding: 1em 1.5em;
+    cursor: pointer;
+  }
+
 .controls{
     display: flex;
     width: 350px;
@@ -22,7 +40,7 @@ body {
     justify-items:center;
     justify-content: center;
     top: 33px;
-    left: 20%;
+    left: 35%;
     padding: 5px 5px 5px 5px;
     border-radius: 2dvh;
     position: absolute;
