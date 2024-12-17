@@ -1,49 +1,52 @@
 const cards = document.querySelectorAll(".card");
+const startButton = document.querySelector('.start');
+const gameBoard = document.querySelector('.wrapper');
+const matchIceCreamsTitle = document.querySelector('h1');
+const countDownTimer = document.querySelector(".timer");
+const controlsEl = document.querySelector(".controls");
+const flipEl = document.querySelector(".flip");
 
-let matchedCard
-let firstCard
-let secondCard
-let disableClick
 
-startingMinutes = 0
-startinSecond = 30
-let time = (startingMinutes * 60) + startinSecond
-const countDownTimer = document.querySelector(".timer")
 
-setInterval(updateTime, 1000)
+let matchedCard;
+    let firstCard;
+    let secondCard;
+    let disableClick;
+    let time;
+    let flips
 
-function updateTime(){
-    const minutes = Math.floor(time/60)
-    const seconds = time % 60
-    if(seconds < 10){
-        countDownTimer.innerHTML = `0${minutes} : 0${seconds}` 
-    }else{
-        countDownTimer.innerHTML = `0${minutes} : ${seconds}` 
+    function updateTime() {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        if (seconds < 10) {
+            countDownTimer.innerHTML = `&nbsp;&nbsp;Time 0${minutes} : 0${seconds}`;
+        } else {
+            countDownTimer.innerHTML = `&nbsp;&nbsp;Time 0${minutes} : ${seconds}`;
+        }
 
+        if (time === 15) {
+            countDownTimer.style.color = "red";
+        }
+
+        if (time <= 0) {
+            countDownTimer.innerHTML = `00 : 00`;
+            disableClick = true;
+        } else {
+            time--;
+        }
     }
-
-    if(time === 15){
-        countDownTimer.style.color = "red"
-    }
-    
-    if(time <= 0){
-        countDownTimer.innerHTML = `00 : 00`
-        disableClick = true 
-
-    }else{
-        time--
-    }
-
-}
 
 function init(){
     matchedCard = 0
     firstCard = null
     secondCard = null
-    disableClick = false  
+    disableClick = false 
+    flips = 0 
 }
 
 function flipCard(e) {
+    flips+=1
+    flipEl.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;Flips : ${flips}`
     let clickedCard = e.currentTarget
 
     if (!disableClick && clickedCard !== firstCard) {
@@ -111,4 +114,14 @@ shuffleCard()
 
 cards.forEach(card => {
     card.addEventListener('click', flipCard)
+});
+
+startButton.addEventListener("click", () => {
+    gameBoard.classList.remove('hide');
+    matchIceCreamsTitle.classList.add('hide');
+    countDownTimer.classList.remove('hide');
+    controlsEl.classList.remove('hide');
+    time = 59;
+    setInterval(updateTime, 1000);
+    startButton.classList.add('hide');
 });
