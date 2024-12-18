@@ -1,12 +1,16 @@
 const cards = document.querySelectorAll(".card");
 const startButton = document.querySelector('.start');
 const gameBoard = document.querySelector('.wrapper');
-const matchIceCreamsTitle = document.querySelector('h1');
+const matchTitle = document.querySelector('h1');
 const countDownTimer = document.querySelector(".timer");
 const controlsEl = document.querySelector(".controls");
 const flipEl = document.querySelector(".flip");
 const winTimeEl = document.querySelector(".wining-time");
 const winFlipEl = document.querySelector(".wining-flips");
+const playAgainEl = document.querySelector(".play-again");
+const questionMarkEl = document.querySelector(".material-icons");
+const canvas = document.querySelector('#confetti');
+
 
 
 
@@ -32,6 +36,7 @@ let matchedCard;
             countDownTimer.style.color = "red";
         }
 
+        
         if (time <= 0) {
             countDownTimer.innerHTML = `&nbsp;&nbsp;Time 00 : 00`;
             disableClick = true;
@@ -78,7 +83,7 @@ function matchCards(img1, img2) {
 
         if (matchedCard === 8) {
             setTimeout(() => {
-                endGame()
+                winGame()
             }, 1200)
         }
 
@@ -105,7 +110,6 @@ function matchCards(img1, img2) {
 }
 
 function shuffleCard() {
-    init()
     let imgArray = [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8]
     imgArray.sort(() => Math.random() > 0.5 ? 1 : -1)
 
@@ -113,47 +117,88 @@ function shuffleCard() {
     cards.forEach((card, index) => {
         card.classList.remove('flip')
         let imgTag = card.querySelector('img')
-        imgTag.src = `memory-img/img-${imgArray[index]}.png`
+        imgTag.src = `icecream/img-${imgArray[index]}.png`
         card.addEventListener('click', flipCard)
     });
 }
 shuffleCard()
+init()
 
 cards.forEach(card => {
     card.addEventListener('click', flipCard)
 });
 
-startButton.addEventListener("click", () => {
+
+
+
+playAgainEl.addEventListener("click", () => {
     gameBoard.classList.remove('hide');
-    matchIceCreamsTitle.classList.add('hide');
+    matchTitle.classList.add('hide');
     countDownTimer.classList.remove('hide');
     controlsEl.classList.remove('hide');
     time = 59;
-    setInterval(updateTime, 1000);
+    flips = 0;
+
+    // Clear the existing interval before starting a new one
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTime, 1000);
+
+    startButton.classList.add('hide');
+    winFlipEl.classList.add('hide');
+    winTimeEl.classList.add('hide');
+    playAgainEl.classList.add('hide');
+    flipEl.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp; Flips : 0`
+    shuffleCard()
+    init()
+    jsConfetti.clearCanvas()
+});
+
+let timerInterval; // Variable to store the interval ID
+
+startButton.addEventListener("click", () => {
+    shuffleCard()
+init()
+    gameBoard.classList.remove('hide');
+    matchTitle.classList.add('hide');
+    countDownTimer.classList.remove('hide');
+    controlsEl.classList.remove('hide');
+    time = 59;
+
+    // Clear the existing interval before starting a new one
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTime, 1000);
+
     startButton.classList.add('hide');
 });
 
-function endGame() {
+function winGame() {
     gameBoard.classList.add('hide');
-    matchIceCreamsTitle.innerHTML = "You Won!";
+    matchTitle.innerHTML = "You Won!";
     winTimeEl.innerHTML = `Final Time: ${(59 - time)} seconds`;
     controlsEl.classList.add('hide');
-    matchIceCreamsTitle.classList.remove('hide');
+    matchTitle.classList.remove('hide');
     winFlipEl.classList.remove('hide');
     winTimeEl.classList.remove('hide');
-     matchIceCreamsTitle.style.color = "green";
-     matchIceCreamsTitle.style.fontSize = "70px"
-    winFlipEl.innerHTML = `<p>Total Flips: ${flips}</p>`
+    matchTitle.style.color = "green";
+    matchTitle.style.fontSize = "70px"
+    winFlipEl.innerHTML = `<p>Total Flips: ${flips}</p> <br><br>`
+    playAgainEl.classList.remove('hide');
+    const jsConfetti = new JSConfetti();
+    jsConfetti.addConfetti({
+        emojis: ['🍨', '🍧', '🍦', '🍨', '🍧', '🍦'],
+    }).then(() => jsConfetti.addConfetti())
 }
 
 function  gameOver() {
     gameBoard.classList.add('hide');
-    matchIceCreamsTitle.innerHTML = "You Lose!";
+    matchTitle.innerHTML = "You Lose!";
     controlsEl.classList.add('hide');
-    matchIceCreamsTitle.classList.remove('hide');
+    matchTitle.classList.remove('hide');
     winFlipEl.classList.remove('hide');
     winTimeEl.classList.remove('hide');
-     matchIceCreamsTitle.style.color = "red";
-     matchIceCreamsTitle.style.fontSize = "70px"
+    matchTitle.style.color = "red";
+    matchTitle.style.fontSize = "70px"
     winFlipEl.innerHTML = `<p>Total Flips: ${flips}</p>`
+    playAgainEl.classList.remove('hide');
+
 }
